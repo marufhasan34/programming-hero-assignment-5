@@ -13,8 +13,46 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- tailwind + daisyUI -->
   </head>
-  <body>
-    <h2 class="text-red-600">maruf hasan</h2>
-    <script src="./script.js"></script>
+  <body class="min-h-screen max-w-md mx-auto">
+    <div class="card bg-base-100 w-full max-w-sm shrink-0 mt-20 shadow-2xl">
+      <!-- outside  -->
+      <div class="mx-auto pt-10 pb-5">
+        <img src="./assets/github-logo.png" alt="" />
+      </div>
+      <div class="text-center">
+        <h2 class="font-semibold text-2xl pb-2">GitHub Issues Tracker</h2>
+        <p class="font-normal text-sm text-[#64748b]">
+          Sign in to manage your issues
+        </p>
+      </div>
+      <!-- outside  -->
+
+      <div class="card-body">
+        <fieldset class="fieldset">
+          <label class="label font-medium text-[#1f2937]">Username</label>
+          <input type="text" id="inputName" class="input" placeholder="Enter Username" />
+          <label class="label font-medium text-[#1f2937]">Password</label>
+          <input type="password" id="inputPassword" class="input" placeholder="Enter Password" />
+          <button id="signIn" class="btn btn-primary mt-4">Sign In</button>
+        </fieldset>
+      </div>
+      <hr />
+      <h3 class="font-bold text-center my-2">OR</h3>
+      <hr />
+
+      <div class="text-center space-y-1 py-3">
+        <p class="font-medium text-sm text-[#64748b]">Demo Credentials:</p>
+        <p class="font-medium text-[#1f2937]">
+          User name :
+          <span class="font-medium text-sm text-[#37393b]">admin</span>
+        </p>
+        <p class="font-medium text-[#1f2937]">
+          Password :
+          <span class="font-medium text-sm text-[#37393b]">admin123</span>
+        </p>
+      </div>
+    </div>
+
+    <script src="./siginIn.js"></script>
   </body>
 </html>
