@@ -38,9 +38,9 @@ const handleFilter = (btn) => {
     const openCards = allCards.filter(function (card) {
       return card.status === "open";
     });
-     showLoading()
+    showLoading();
     displayAllCards(openCards);
-    hideLoading()
+    hideLoading();
   }
 
   if (btn === "closed") {
@@ -49,9 +49,9 @@ const handleFilter = (btn) => {
     const closedCards = allCards.filter(function (card) {
       return card.status === "closed";
     });
-    showLoading()
+    showLoading();
     displayAllCards(closedCards);
-    hideLoading()
+    hideLoading();
   }
 };
 
@@ -149,3 +149,17 @@ const displayAllCards = async (cards) => {
 };
 
 loadAllCards();
+
+document.getElementById("btn-search").addEventListener("click", () => {
+  const input = document.getElementById("input-search");
+  const inputValue = input.value.trim().toLowerCase();
+
+  fetch(
+    `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${inputValue}`,
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      const results = data.data;
+      displayAllCards(results);
+    });
+});
