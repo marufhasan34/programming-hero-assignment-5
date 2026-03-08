@@ -1,6 +1,6 @@
 const createElement = (arr) => {
   const htmlElements = arr.map(
-    (el) => `<span class="badge badge-success">${el}</span>`,
+    (el) => `<span class="badge  badge-warning">${el}</span>`,
   );
   return htmlElements.join(" ");
 };
