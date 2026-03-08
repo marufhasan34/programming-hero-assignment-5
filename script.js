@@ -111,18 +111,23 @@ const displayCardDetail = (cards) => {
 const displayAllCards = async (cards) => {
   cardContainer.innerHTML = "";
   cards.forEach((card) => {
+    const statusBadge =
+      card.status === "open" ? "badge-success" : "badge-secondary";
+    const priorityBadge =
+      card.status === "open" ? " badge-info" : " badge-accent";
+
     const icon =
       card.status === "open"
         ? "./assets/Open-Status.png"
         : "./assets/Closed- Status .png";
 
     const div = document.createElement("div");
-    div.className = "card card-body w-full shadow-xl";
+    div.className = `card card-body w-full shadow-xl border-t-4 ${card.status === "open" ? "border-green-500" : "border-purple-500"}`;
     div.innerHTML = `
        <div onclick="loadCardDetail(${card.id})" class="flex justify-between items-center">
             <img src="${icon}" alt="" />
             <div>
-              <p>${card.priority}</p>
+              <p class="badge ${priorityBadge}">${card.priority}</p>
             </div>
           </div>
           <h3 onclick="loadCardDetail(${card.id})" class="font-semibold text-sm py-2">
@@ -131,7 +136,7 @@ const displayAllCards = async (cards) => {
           <p onclick="loadCardDetail(${card.id})" class="font-normal text-xs line-clamp-2 text-[#64748b]">
             ${card.description}
           </p>
-          <p onclick="loadCardDetail(${card.id})" class="font-normal text-xs py-3">
+          <p onclick="loadCardDetail(${card.id})" class="font-normal badge ${statusBadge} text-xs my-4">
             ${card.status}
           </p>
           <div onclick="loadCardDetail(${card.id})" class="flex gap-1 py-3">
@@ -153,7 +158,7 @@ loadAllCards();
 document.getElementById("btn-search").addEventListener("click", () => {
   const input = document.getElementById("input-search");
   const inputValue = input.value.trim().toLowerCase();
-
+  showLoading();
   fetch(
     `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${inputValue}`,
   )
@@ -161,5 +166,6 @@ document.getElementById("btn-search").addEventListener("click", () => {
     .then((data) => {
       const results = data.data;
       displayAllCards(results);
+      hideLoading();
     });
 });
