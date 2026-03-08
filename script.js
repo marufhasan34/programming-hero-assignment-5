@@ -10,10 +10,10 @@ const loadingSpinner = document.getElementById("loadingSpinner");
 const allBtn = document.getElementById("allBtn");
 const openBtn = document.getElementById("openBtn");
 const closedBtn = document.getElementById("closedBtn");
+
 let allCards = [];
 const showLoading = () => {
   loadingSpinner.classList.remove("hidden");
-  loadingSpinner.innerHTML = "";
 };
 const hideLoading = () => {
   loadingSpinner.classList.add("hidden");
@@ -64,46 +64,83 @@ const loadAllCards = async () => {
   displayAllCards(data.data);
 };
 
-// labels
-// :
-// (2) ['enhancement', 'help wanted']
-// priority
-// :
-// "high"
-// status
-// :
-// "open"
+const loadCardDetail = async (id) => {
+  const res = await fetch(
+    `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`,
+  );
+  const data = await res.json();
+  displayCardDetail(data.data);
+};
+
+const displayCardDetail = (cards) => {
+  console.log(cards);
+  const detailsBox = document.getElementById("details-container");
+  detailsBox.innerHTML = `
+    <h3 class="font-bold text-2xl">${cards.title}</h3>
+            <div class="flex gap-5">
+              <p class="badge badge-success">${cards.status}</p>
+              <p> ${cards.author}</p>
+              <p>${cards.createdAt}</p>
+            </div>
+            <div></div>
+            <p>
+              ${cards.description}
+            </p>
+            <div class="flex gap-10">
+              <div>
+                <p>Assignee:</p>
+                <p>${cards.author}</p>
+              </div>
+              <div>
+                <p>Priority:</p>
+                <p class="badge badge-error">${cards.priority}</p>
+              </div>
+            </div>
+            <div class="modal-action">
+              <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn btn-primary">Close</button>
+              </form>
+            </div>
+  `;
+  document.getElementById("cardDetailsModal").showModal();
+};
 
 const displayAllCards = async (cards) => {
   cardContainer.innerHTML = "";
   cards.forEach((card) => {
+    const icon =
+      card.status === "open"
+        ? "./assets/Open-Status.png"
+        : "./assets/Closed- Status .png";
+
     const div = document.createElement("div");
     div.className = "card card-body w-full shadow-xl";
     div.innerHTML = `
-       <div class="flex justify-between items-center">
-            <img src="./assets/Open-Status.png" alt="" />
+       <div onclick="loadCardDetail(${card.id})" class="flex justify-between items-center">
+            <img src="${icon}" alt="" />
             <div>
               <p>${card.priority}</p>
             </div>
           </div>
-          <h3 class="font-semibold text-sm py-2">
+          <h3 onclick="loadCardDetail(${card.id})" class="font-semibold text-sm py-2">
             ${card.title}
           </h3>
-          <p class="font-normal text-xs line-clamp-2 text-[#64748b]">
+          <p onclick="loadCardDetail(${card.id})" class="font-normal text-xs line-clamp-2 text-[#64748b]">
             ${card.description}
           </p>
-          <p class="font-normal text-xs py-3">
+          <p onclick="loadCardDetail(${card.id})" class="font-normal text-xs py-3">
             ${card.status}
           </p>
-          <div class="flex gap-1 py-3">
+          <div onclick="loadCardDetail(${card.id})" class="flex gap-1 py-3">
            <div class="">
            ${createElement(card.labels)}
            </div>
             
           </div>
           <hr />
-          <span class="text-[#64748b]">${card.author}</span>
-          <span class="text-[#64748b]">${card.createdAt}</span>
+          <span onclick="loadCardDetail(${card.id})" class="text-[#64748b]">${card.author}</span>
+          <span onclick="loadCardDetail(${card.id})" class="text-[#64748b]">${card.createdAt}</span>
      `;
     cardContainer.appendChild(div);
   });
