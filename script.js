@@ -38,8 +38,9 @@ const handleFilter = (btn) => {
     const openCards = allCards.filter(function (card) {
       return card.status === "open";
     });
-
+     showLoading()
     displayAllCards(openCards);
+    hideLoading()
   }
 
   if (btn === "closed") {
@@ -48,8 +49,9 @@ const handleFilter = (btn) => {
     const closedCards = allCards.filter(function (card) {
       return card.status === "closed";
     });
-
+    showLoading()
     displayAllCards(closedCards);
+    hideLoading()
   }
 };
 
@@ -82,7 +84,7 @@ const displayCardDetail = (cards) => {
               <p> ${cards.author}</p>
               <p>${cards.createdAt}</p>
             </div>
-            <div></div>
+            <div>${createElement(cards.labels)}</div>
             <p>
               ${cards.description}
             </p>
