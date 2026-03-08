@@ -10,7 +10,7 @@ const loadingSpinner = document.getElementById("loadingSpinner");
 const allBtn = document.getElementById("allBtn");
 const openBtn = document.getElementById("openBtn");
 const closedBtn = document.getElementById("closedBtn");
-
+const cardCount = document.getElementById("card-count");
 let allCards = [];
 const showLoading = () => {
   loadingSpinner.classList.remove("hidden");
@@ -110,7 +110,11 @@ const displayCardDetail = (cards) => {
 
 const displayAllCards = async (cards) => {
   cardContainer.innerHTML = "";
+ 
+  cardCount.textContent = `${cards.length} `;
+
   cards.forEach((card) => {
+   
     const statusBadge =
       card.status === "open" ? "badge-success" : "badge-secondary";
     const priorityBadge =
